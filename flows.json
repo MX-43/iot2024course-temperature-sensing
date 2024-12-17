@@ -1,0 +1,369 @@
+[
+    {
+        "id": "37672e87e604c762",
+        "type": "tab",
+        "label": "Temperature to DB",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "437333aa0b6ffc48",
+        "type": "mqtt in",
+        "z": "37672e87e604c762",
+        "name": "Subscribe to HiveMQ Cloud AVG",
+        "topic": "picow/temp_avg",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "f179af93150e0c00",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 80,
+        "wires": [
+            [
+                "bc35a2a7276cfbd0"
+            ]
+        ]
+    },
+    {
+        "id": "68f93d47e3075782",
+        "type": "influxdb out",
+        "z": "37672e87e604c762",
+        "influxdb": "bba5fe4e0bed523d",
+        "name": "temp_avg",
+        "measurement": "Temp_avg",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "Oulu",
+        "bucket": "BME-280",
+        "x": 660,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "237904c0bc0b15c6",
+        "type": "debug",
+        "z": "37672e87e604c762",
+        "name": "temp avg",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "3d5c578eaf646351",
+        "type": "mqtt in",
+        "z": "37672e87e604c762",
+        "name": "Subscribe to HiveMQ Cloud OUTLIER",
+        "topic": "picow/temp_outlier",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "f179af93150e0c00",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 240,
+        "wires": [
+            [
+                "babd8784758aea40"
+            ]
+        ]
+    },
+    {
+        "id": "9e8babe2092f0651",
+        "type": "influxdb out",
+        "z": "37672e87e604c762",
+        "influxdb": "bba5fe4e0bed523d",
+        "name": "temp_outlier",
+        "measurement": "Temp_outlier",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "Oulu",
+        "bucket": "BME-280",
+        "x": 750,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "79955f463b4be9c1",
+        "type": "debug",
+        "z": "37672e87e604c762",
+        "name": "temp outlier",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "babd8784758aea40",
+        "type": "function",
+        "z": "37672e87e604c762",
+        "name": "function 3",
+        "func": "newMsg = {};\n\nnewMsg.payload = parseFloat(msg.payload);\n\nreturn newMsg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 240,
+        "wires": [
+            [
+                "9e8babe2092f0651",
+                "79955f463b4be9c1",
+                "683bbeb0a97cf577",
+                "4b38f8d4e2c92570"
+            ]
+        ]
+    },
+    {
+        "id": "bc35a2a7276cfbd0",
+        "type": "function",
+        "z": "37672e87e604c762",
+        "name": "function 4",
+        "func": "newMsg = {};\n\nnewMsg.payload = parseFloat(msg.payload);\n\nreturn newMsg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 80,
+        "wires": [
+            [
+                "68f93d47e3075782",
+                "237904c0bc0b15c6"
+            ]
+        ]
+    },
+    {
+        "id": "683bbeb0a97cf577",
+        "type": "trigger",
+        "z": "37672e87e604c762",
+        "name": "Time since last event",
+        "op1": "",
+        "op2": "timeout",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "3",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "hr",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 660,
+        "y": 480,
+        "wires": [
+            [
+                "f4b6f9380f4c5236"
+            ]
+        ]
+    },
+    {
+        "id": "802d9645e93517f8",
+        "type": "telegram sender",
+        "z": "37672e87e604c762",
+        "name": "",
+        "bot": "de08eb78d7c2aeca",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1080,
+        "y": 480,
+        "wires": [
+            [
+                "41edf4017dbd0f7d"
+            ]
+        ]
+    },
+    {
+        "id": "41edf4017dbd0f7d",
+        "type": "debug",
+        "z": "37672e87e604c762",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1300,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "f4b6f9380f4c5236",
+        "type": "template",
+        "z": "37672e87e604c762",
+        "name": "tiimeout message",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\"chatId\": CHATID,\n\"type\":\"message\",\n\"content\":\"It's been a while since dog went outside...\"}",
+        "output": "json",
+        "x": 870,
+        "y": 480,
+        "wires": [
+            [
+                "802d9645e93517f8"
+            ]
+        ]
+    },
+    {
+        "id": "c375281fcc08b31c",
+        "type": "telegram sender",
+        "z": "37672e87e604c762",
+        "name": "",
+        "bot": "de08eb78d7c2aeca",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1130,
+        "y": 420,
+        "wires": [
+            [
+                "8d666910d5b3461a"
+            ]
+        ]
+    },
+    {
+        "id": "8d666910d5b3461a",
+        "type": "debug",
+        "z": "37672e87e604c762",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1310,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "4b38f8d4e2c92570",
+        "type": "template",
+        "z": "37672e87e604c762",
+        "name": "door opening event detected",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\"chatId\": CHATID,\n\"type\":\"message\",\n\"content\":\"Door event detected! Did dog go out?\"}",
+        "output": "json",
+        "x": 900,
+        "y": 420,
+        "wires": [
+            [
+                "c375281fcc08b31c"
+            ]
+        ]
+    },
+    {
+        "id": "f179af93150e0c00",
+        "type": "mqtt-broker",
+        "name": "HiveMQ",
+        "broker": "HIVEMQBROKERURL",
+        "port": "8883",
+        "tls": "",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "bba5fe4e0bed523d",
+        "type": "influxdb",
+        "hostname": "HOSTNAME",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "BME-280",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "HOSTURL",
+        "timeout": "10",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "de08eb78d7c2aeca",
+        "type": "telegram bot",
+        "botname": "TeleRed2024_bot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "addressfamily": "",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    }
+]
