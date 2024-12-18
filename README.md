@@ -14,7 +14,7 @@ This project is designed to monitor a dog's outdoor activity by tracking door op
 
 ---
 
-## 1. Project Overview
+## Project Overview
 
 In households with dogs, it can often be difficult to remember exactly when and how many times the dog has been let outside. To solve this problem, this project uses a **device** equipped with a **temperature sensor** positioned near the front door. By detecting temperature changes caused by the door being opened, the device automatically tracks when the door is opened, which indicates that the dog has been let outside.
 
@@ -34,7 +34,7 @@ While the primary focus of this project is on demonstrating the **data collectio
 
 ---
 
-## 2. Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -88,27 +88,27 @@ Before starting, ensure you have the following:
 
 ---
 
-## 3. Code Explanation
+## Code Explanation
 
-### 1. **Wi-Fi Connection**
+### **Wi-Fi Connection**
    The script connects to the specified Wi-Fi network and prints the device’s IP address once successfully connected.
 
-### 2. **Sensor Data Collection**
+### **Sensor Data Collection**
    The **BME280** sensor collects temperature data over **I2C**. When a significant change in temperature is detected (indicating that the door was opened), the system records this event.
 
-### 3. **Temperature Averaging and Alert System**
+### **Temperature Averaging and Alert System**
    - The temperature is averaged over a set number of readings.
    - If the temperature deviates significantly from the average (suggesting the door has opened), the system checks if this event should trigger an alert.
 
-### 4. **MQTT Communication**
+### **MQTT Communication**
    The device connects to an MQTT broker and securely sends temperature data and alerts via the **umqtt.simple** library. The system uses **SSL** encryption for secure communication.
 
-### 5. **LED Indicators**
+### **LED Indicators**
    The **LED** stays on during normal operation. When a significant temperature change is detected (indicating that the door has been opened), the **LED** blinks briefly to indicate an outlier reading.
 
 ---
 
-## 4. Acknowledgments
+## Acknowledgments
 
 - The **starting code** for this project was provided by the **Teaching Assistant (TA)**. This code was adapted to include features like temperature averaging, door opening detection, and MQTT communication.
 - Libraries used:
@@ -118,7 +118,7 @@ Before starting, ensure you have the following:
 
 ---
 
-## 5. Troubleshooting
+## Troubleshooting
 
 If you encounter issues, check the following:
 
